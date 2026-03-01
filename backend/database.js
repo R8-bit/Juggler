@@ -116,17 +116,7 @@ const TicketLink = sequelize.define('TicketLink', {
 	label: { type: DataTypes.STRING, defaultValue: 'Купить билеты' }, // можно менять текст кнопки
 })
 
-// Sync Database (только в dev режиме)
-if (process.env.NODE_ENV !== 'production') {
-	sequelize
-		.sync()
-		.then(() => {
-			if (process.env.NODE_ENV !== 'production') {
-				console.log('Database & tables created!')
-			}
-		})
-		.catch(err => console.error('Error syncing database:', err))
-}
+// Sync Database (handled in server.js)
 
 module.exports = {
 	sequelize,

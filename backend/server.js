@@ -132,5 +132,11 @@ app.listen(PORT, async () => {
   console.log(
     `[${new Date().toISOString()}] Environment: ${process.env.NODE_ENV || "development"}`,
   );
+  try {
+    await db.sequelize.sync();
+    console.log(`[${new Date().toISOString()}] Database synced`);
+  } catch (err) {
+    console.error(`[${new Date().toISOString()}] Failed to sync database:`, err);
+  }
   await initAdminUser();
 });
