@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title data-i18n="contact.title">Связь с нами | JUGGLER</title>
+
+		<!-- Fonts -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Compiled CSS -->
+		<link rel="stylesheet" href="/css/compiled.css" />
+
+		<!-- Favicon -->
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎪</text></svg>"
+		/>
+	</head>
+	<body>
+		<!-- HEADER -->
+		<header id="header">
+			<div class="container">
+				<div class="header-content">
+					<a
+						href="index.html"
+						class="logo mobile-only"
+						data-i18n="site.shortTitle"
+						>JUGGLER</a
+					>
+
+					<nav class="nav" id="mainNav">
+						<a
+							href="index.html"
+							class="nav-logo desktop-only"
+							data-i18n="site.shortTitle"
+							>JUGGLER</a
+						>
+						<a href="index.html#bio" class="nav-link" data-i18n="nav.bio"
+							>Биография</a
+						>
+						<a href="video.html" class="nav-link" data-i18n="nav.videos"
+							>Шоу</a
+						>
+						<a href="gallery.html" class="nav-link" data-i18n="nav.gallery"
+							>Галерея</a
+						>
+						<a
+							href="#"
+							class="nav-link"
+							id="ticketsLink"
+							data-i18n="nav.tickets"
+							>Билеты</a
+						>
+						<a
+							href="contact.html"
+							class="nav-link active"
+							data-i18n="nav.contact"
+							>Связь с нами</a
+						>
+						<button class="language-switcher" id="langSwitcher">RU</button>
+					</nav>
+
+					<button class="menu-toggle" id="menuToggle" aria-label="Меню">
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav Overlay -->
+		<div class="nav-overlay" id="navOverlay"></div>
+
+		<!-- CONTACT PAGE SECTION -->
+		<section class="contact-page">
+			<!-- Фиксированный видео фон -->
+			<div class="fixed-video-bg">
+				<video autoplay muted loop playsinline id="bgVideo">
+					<!-- Видео будет установлено из JS -->
+				</video>
+				<div class="video-overlay"></div>
+			</div>
+
+			<div class="container">
+				<div class="page-header">
+					<h1 class="page-title" data-i18n="contact.title">Связь с нами</h1>
+					<p class="page-subtitle" data-i18n="contact.subtitle">
+						Мы всегда рады вашим вопросам
+					</p>
+				</div>
+
+				<!-- Форма связи -->
+				<div class="contact-form-container">
+					<form id="contactForm" class="contact-form">
+						<div class="form-row">
+							<div class="form-group">
+								<label for="firstName">
+									<span data-i18n="contact.form.firstName">Имя</span>
+									<span class="required">*</span>
+								</label>
+								<input
+									type="text"
+									id="firstName"
+									name="firstName"
+									required
+									data-i18n-attr="placeholder"
+									data-i18n="contact.form.firstName"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="lastName">
+									<span data-i18n="contact.form.lastName">Фамилия</span>
+									<span class="required">*</span>
+								</label>
+								<input
+									type="text"
+									id="lastName"
+									name="lastName"
+									required
+									data-i18n-attr="placeholder"
+									data-i18n="contact.form.lastName"
+								/>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group">
+								<label for="phone">
+									<span data-i18n="contact.form.phone">Телефон</span>
+									<span class="required">*</span>
+								</label>
+								<div class="phone-input">
+									<select
+										id="countryCode"
+										name="countryCode"
+										class="country-code"
+									>
+										<!-- СНГ и ближнее зарубежье -->
+										<option value="+7" data-iso="ru" selected>
+											+7 (Россия)
+										</option>
+										<option value="+7" data-iso="kz">+7 (Казахстан)</option>
+										<option value="+375" data-iso="by">+375 (Беларусь)</option>
+										<option value="+380" data-iso="ua">+380 (Украина)</option>
+										<option value="+374" data-iso="am">+374 (Армения)</option>
+										<option value="+994" data-iso="az">
+											+994 (Азербайджан)
+										</option>
+										<option value="+995" data-iso="ge">+995 (Грузия)</option>
+										<option value="+996" data-iso="kg">+996 (Киргизия)</option>
+										<option value="+373" data-iso="md">+373 (Молдова)</option>
+										<option value="+992" data-iso="tj">
+											+992 (Таджикистан)
+										</option>
+										<option value="+993" data-iso="tm">
+											+993 (Туркменистан)
+										</option>
+										<option value="+998" data-iso="uz">
+											+998 (Узбекистан)
+										</option>
+
+										<!-- Европа -->
+										<option value="+43" data-iso="at">+43 (Австрия)</option>
+										<option value="+32" data-iso="be">+32 (Бельгия)</option>
+										<option value="+359" data-iso="bg">+359 (Болгария)</option>
+										<option value="+44" data-iso="gb">
+											+44 (Великобритания)
+										</option>
+										<option value="+36" data-iso="hu">+36 (Венгрия)</option>
+										<option value="+49" data-iso="de">+49 (Германия)</option>
+										<option value="+30" data-iso="gr">+30 (Греция)</option>
+										<option value="+45" data-iso="dk">+45 (Дания)</option>
+										<option value="+353" data-iso="ie">+353 (Ирландия)</option>
+										<option value="+34" data-iso="es">+34 (Испания)</option>
+										<option value="+39" data-iso="it">+39 (Италия)</option>
+										<option value="+357" data-iso="cy">+357 (Кипр)</option>
+										<option value="+371" data-iso="lv">+371 (Латвия)</option>
+										<option value="+370" data-iso="lt">+370 (Литва)</option>
+										<option value="+31" data-iso="nl">+31 (Нидерланды)</option>
+										<option value="+47" data-iso="no">+47 (Норвегия)</option>
+										<option value="+48" data-iso="pl">+48 (Польша)</option>
+										<option value="+351" data-iso="pt">
+											+351 (Португалия)
+										</option>
+										<option value="+40" data-iso="ro">+40 (Румыния)</option>
+										<option value="+381" data-iso="rs">+381 (Сербия)</option>
+										<option value="+421" data-iso="sk">+421 (Словакия)</option>
+										<option value="+386" data-iso="si">+386 (Словения)</option>
+										<option value="+358" data-iso="fi">+358 (Финляндия)</option>
+										<option value="+33" data-iso="fr">+33 (Франция)</option>
+										<option value="+385" data-iso="hr">+385 (Хорватия)</option>
+										<option value="+382" data-iso="me">
+											+382 (Черногория)
+										</option>
+										<option value="+420" data-iso="cz">+420 (Чехия)</option>
+										<option value="+41" data-iso="ch">+41 (Швейцария)</option>
+										<option value="+46" data-iso="se">+46 (Швеция)</option>
+										<option value="+372" data-iso="ee">+372 (Эстония)</option>
+
+										<!-- Азия и Ближний Восток -->
+										<option value="+971" data-iso="ae">+971 (ОАЭ)</option>
+										<option value="+84" data-iso="vn">+84 (Вьетнам)</option>
+										<option value="+852" data-iso="hk">+852 (Гонконг)</option>
+										<option value="+972" data-iso="il">+972 (Израиль)</option>
+										<option value="+91" data-iso="in">+91 (Индия)</option>
+										<option value="+62" data-iso="id">+62 (Индонезия)</option>
+										<option value="+86" data-iso="cn">+86 (Китай)</option>
+										<option value="+60" data-iso="my">+60 (Малайзия)</option>
+										<option value="+65" data-iso="sg">+65 (Сингапур)</option>
+										<option value="+66" data-iso="th">+66 (Таиланд)</option>
+										<option value="+90" data-iso="tr">+90 (Турция)</option>
+										<option value="+81" data-iso="jp">+81 (Япония)</option>
+										<option value="+82" data-iso="kr">+82 (Южная Корея)</option>
+
+										<!-- Америка -->
+										<option value="+1" data-iso="us">+1 (США)</option>
+										<option value="+1" data-iso="ca">+1 (Канада)</option>
+										<option value="+55" data-iso="br">+55 (Бразилия)</option>
+										<option value="+52" data-iso="mx">+52 (Мексика)</option>
+										<option value="+54" data-iso="ar">+54 (Аргентина)</option>
+
+										<!-- Другое -->
+										<option value="+61" data-iso="au">+61 (Австралия)</option>
+										<option value="+64" data-iso="nz">
+											+64 (Новая Зеландия)
+										</option>
+										<option value="+20" data-iso="eg">+20 (Египет)</option>
+									</select>
+									<input
+										type="tel"
+										id="phone"
+										name="phone"
+										required
+										placeholder="999 123-45-67"
+									/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email">
+									<span data-i18n="contact.form.email">Email</span>
+									<span class="required">*</span>
+								</label>
+								<input
+									type="email"
+									id="email"
+									name="email"
+									required
+									placeholder="example@mail.com"
+								/>
+							</div>
+						</div>
+
+						<div class="form-group full-width">
+							<label for="subject">
+								<span data-i18n="contact.form.subject">Тема сообщения</span>
+								<span class="required">*</span>
+							</label>
+							<input
+								type="text"
+								id="subject"
+								name="subject"
+								required
+								data-i18n-attr="placeholder"
+								data-i18n="contact.form.subject"
+							/>
+						</div>
+
+						<button type="submit" class="submit-btn" id="submitBtn">
+							<span data-i18n="contact.form.submit">Отправить</span>
+						</button>
+
+						<div class="form-message" id="formMessage"></div>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<!-- FOOTER -->
+		<footer class="footer">
+			<div class="container">
+				<div class="footer-content">
+					<a href="index.html" class="footer-logo">JUGGLER</a>
+					<div class="footer-links">
+						<h4 data-i18n="footer.sections">Разделы</h4>
+						<ul>
+							<li><a href="index.html#bio" data-i18n="nav.bio">Биография</a></li>
+							<li><a href="video.html" data-i18n="nav.videos">Шоу</a></li>
+							<li>
+								<a href="gallery.html" data-i18n="nav.gallery">Галерея</a>
+							</li>
+							<li>
+								<a href="contact.html" data-i18n="nav.contact">Связь с нами</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="social-container">
+					<div class="social-links" id="socialLinks"></div>
+				</div>
+
+				<div class="footer-bottom">
+					<p data-i18n="footer.copyright">
+						© 2026 JUGGLER. Все права защищены.
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scroll to Top -->
+		<button class="scroll-to-top" id="scrollToTop" aria-label="Наверх">
+			↑
+		</button>
+
+		<!-- Scripts -->
+		<script src="/i18n/i18n.js"></script>
+
+		<script src="/js/main.js"></script>
+		<script src="/js/contact-page.js"></script>
+	</body>
+</html>

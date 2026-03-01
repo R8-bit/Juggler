@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title data-i18n="site.title">
+			JUGGLER - Искусство жонглирования и развлечений
+		</title>
+
+		<!-- Fonts -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Compiled CSS from SCSS -->
+		<link rel="stylesheet" href="/css/compiled.css" />
+
+		<!-- Favicon -->
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎪</text></svg>"
+		/>
+	</head>
+	<body>
+		<!-- HEADER -->
+		<header id="header">
+			<div class="container">
+				<div class="header-content">
+					<a
+						href="index.html"
+						class="logo mobile-only"
+						data-i18n="site.shortTitle"
+						>JUGGLER</a
+					>
+
+					<nav class="nav" id="mainNav">
+						<a
+							href="index.html"
+							class="nav-logo desktop-only"
+							data-i18n="site.shortTitle"
+							>JUGGLER</a
+						>
+						<a href="index.html#bio" class="nav-link" data-i18n="nav.bio"
+							>Биография</a
+						>
+						<a href="video.html" class="nav-link" data-i18n="nav.videos"
+							>Шоу</a
+						>
+						<a href="gallery.html" class="nav-link" data-i18n="nav.gallery"
+							>Галерея</a
+						>
+						<a
+							href="#"
+							class="nav-link"
+							id="ticketsLink"
+							data-i18n="nav.tickets"
+							>Билеты</a
+						>
+						<a href="contact.html" class="nav-link" data-i18n="nav.contact"
+							>Связь с нами</a
+						>
+						<button class="language-switcher" id="langSwitcher">RU</button>
+					</nav>
+
+					<button class="menu-toggle" id="menuToggle" aria-label="Меню">
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav Overlay for Mobile -->
+		<div class="nav-overlay" id="navOverlay"></div>
+
+		<!-- HERO SECTION -->
+		<section id="home" class="hero">
+			<div class="hero-content">
+				<img
+					src="/assets/img/logo-full.png?v=5"
+					alt="JUGGLER SHOW"
+					class="hero-logo"
+					id="heroLogo"
+				/>
+				<p class="hero-subtitle" data-i18n="home.hero.subtitle">
+					Искусство, которое завораживает
+				</p>
+				<a href="#bio" class="scroll-arrow" aria-label="Scroll down">
+					<svg
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<polyline points="6 9 12 15 18 9"></polyline>
+					</svg>
+				</a>
+			</div>
+			<div class="hero-bg"></div>
+		</section>
+
+		<!-- BIO SECTION -->
+		<section id="bio" class="home-section bio-section">
+			<div class="home-section__bg" id="bioBg"></div>
+			<div class="container">
+				<div class="home-section-inner reverse">
+					<div class="home-section-media">
+						<img
+							src=""
+							alt="Биография"
+							class="bio-photo"
+							id="bioPhoto"
+						/>
+					</div>
+					<div class="home-section-content">
+						<h2 class="section-title" data-i18n="home.bio.title">Биография</h2>
+						<p class="home-section-text" id="bioText" data-i18n="home.bio.text">
+							Афиша — ваш главный гид по культурной жизни города.
+						</p>
+						<a
+							href="#"
+							class="home-section-btn btn-primary-red"
+							id="bioTicketBtn"
+							data-i18n="home.bio.btn"
+							>Купить билет</a
+						>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<!-- SHOW SECTION -->
+		<section id="show" class="home-section show-section">
+			<div class="home-section__bg" id="showBg"></div>
+			<div class="container">
+				<div class="home-section-inner">
+					<div class="home-section-visual show-visual" id="showVisual">
+						<div class="show-visual-placeholder" id="showVisualPlaceholder">🎪</div>
+						<img src="" alt="Шоу" class="show-home-media" id="showMediaImg" style="display:none;" />
+						<video muted loop autoplay playsinline class="show-home-media" id="showMediaVideo" style="display:none;"></video>
+					</div>
+					<div class="home-section-content">
+						<h2 class="section-title" data-i18n="home.show.title">Шоу</h2>
+						<p class="home-section-text" data-i18n="home.show.text">
+							Захватывающие выступления, которые никогда не забудешь.
+						</p>
+						<a
+							href="video.html"
+							class="home-section-btn btn-outline-red"
+							data-i18n="home.show.btn"
+							>Смотреть Шоу</a
+						>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- GALLERY PREVIEW SECTION -->
+		<section id="gallery-preview" class="home-section gallery-preview-section">
+			<div class="home-section__bg" id="galleryBg"></div>
+			<div class="container">
+				<div class="home-section-inner reverse">
+					<div class="home-section-visual gallery-visual" id="galleryPreviewVisual">
+						<div class="show-visual-placeholder" id="galleryVisualPlaceholder">📸</div>
+						<img src="" alt="Галерея" class="show-home-media" id="galleryPreviewImg" style="display:none;" />
+					</div>
+					<div class="home-section-content">
+						<h2 class="section-title" data-i18n="home.gallerySection.title">Галерея</h2>
+						<p class="home-section-text" data-i18n="home.gallerySection.text">
+							Яркие моменты наших выступлений в каждом кадре.
+						</p>
+						<a
+							href="gallery.html"
+							class="home-section-btn btn-outline-red"
+							data-i18n="home.gallerySection.btn"
+							>Галерея</a
+						>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FOOTER -->
+		<footer class="footer">
+			<div class="container">
+				<div class="footer-content">
+					<a href="index.html" class="footer-logo">JUGGLER</a>
+					<div class="footer-links">
+						<h4 data-i18n="footer.sections">Разделы</h4>
+						<ul>
+							<li><a href="index.html#bio" data-i18n="nav.bio">Биография</a></li>
+							<li><a href="video.html" data-i18n="nav.videos">Шоу</a></li>
+							<li>
+								<a href="gallery.html" data-i18n="nav.gallery">Галерея</a>
+							</li>
+							<li>
+								<a href="contact.html" data-i18n="nav.contact">Связь с нами</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Social Links -->
+				<div class="social-container">
+					<div class="social-links" id="socialLinks">
+						<!-- Будут загружены из БД -->
+					</div>
+				</div>
+
+				<div class="footer-bottom">
+					<p data-i18n="footer.copyright">
+						© 2026 JUGGLER. Все права защищены.
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scroll to Top Button -->
+		<button class="scroll-to-top" id="scrollToTop" aria-label="Наверх">
+			↑
+		</button>
+
+		<!-- Scripts -->
+		<script src="/i18n/i18n.js"></script>
+
+		<script src="/js/main.js"></script>
+	</body>
+</html>

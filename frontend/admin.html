@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Админ-панель — JUGGLER</title>
+		<link rel="stylesheet" href="/css/admin.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎪</text></svg>"
+		/>
+		<!-- Auth check — ПЕРЕД загрузкой страницы -->
+		<script src="/js/auth.js"></script>
+		<script>
+			checkAuth()
+		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+	</head>
+	<body class="dark-theme">
+		<div class="bg-orbs">
+			<div class="orb orb-1"></div>
+			<div class="orb orb-2"></div>
+		</div>
+
+		<div class="admin-layout">
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				<div class="sidebar-brand">
+					<span class="brand-icon">🎪</span>
+					<span class="brand-text">JUGGLER</span>
+					<button class="sidebar-close" id="sidebarClose">✕</button>
+				</div>
+
+				<nav class="sidebar-nav">
+					<a href="#" class="nav-item active" data-section="dashboard">
+						<span class="nav-icon">📊</span>
+						<span class="nav-label">Сводка</span>
+					</a>
+					<a href="#" class="nav-item" data-section="stats">
+						<span class="nav-icon">📈</span>
+						<span class="nav-label">Статистика</span>
+					</a>
+					<a href="#" class="nav-item" data-section="videos">
+						<span class="nav-icon">🎥</span>
+						<span class="nav-label">Видео</span>
+					</a>
+					<a href="#" class="nav-item" data-section="gallery">
+						<span class="nav-icon">📸</span>
+						<span class="nav-label">Галерея</span>
+					</a>
+					<a href="#" class="nav-item" data-section="texts">
+						<span class="nav-icon">📝</span>
+						<span class="nav-label">Тексты</span>
+					</a>
+					<a href="#" class="nav-item" data-section="social">
+						<span class="nav-icon">🔗</span>
+						<span class="nav-label">Соцсети</span>
+					</a>
+					<a href="#" class="nav-item" data-section="settings">
+						<span class="nav-icon">⚙️</span>
+						<span class="nav-label">Настройки</span>
+					</a>
+					<a href="#" class="nav-item" data-section="crm">
+						<span class="nav-icon">✉️</span>
+						<span class="nav-label"
+							>Заявки
+							<span class="badge" id="crmBadge" style="display: none"
+								>0</span
+							></span
+						>
+					</a>
+					<a href="#" class="nav-item" data-section="security">
+						<span class="nav-icon">🔒</span>
+						<span class="nav-label">Безопасность</span>
+					</a>
+				</nav>
+
+				<div class="sidebar-footer">
+					<a href="/index.html" class="nav-item back-link">
+						<span class="nav-icon">←</span>
+						<span class="nav-label">На сайт</span>
+					</a>
+				</div>
+			</aside>
+
+			<!-- Main -->
+			<main class="main-content">
+				<header class="topbar">
+					<button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+					<h1 class="page-title" id="pageTitle">Видео</h1>
+					<div class="topbar-right">
+						<span class="admin-badge">Администратор</span>
+					</div>
+				</header>
+
+				<div class="content-area" id="contentArea">
+					<!-- ===== DASHBOARD ===== -->
+					<section id="sec-dashboard" class="section active">
+						<div class="section-header">
+							<h2>Сводка по системе</h2>
+						</div>
+						<div class="dashboard-grid" id="dashboardGrid">
+							<div class="loading-state">Загрузка...</div>
+						</div>
+					</section>
+
+					<!-- ===== STATS ===== -->
+					<section id="sec-stats" class="section">
+						<div class="section-header">
+							<h2>Статистика посещений</h2>
+							<button class="btn btn-danger" onclick="resetStats()">
+								Сбросить статистику
+							</button>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h3>График посещений (последние 30 дней)</h3>
+							</div>
+							<div class="card-body">
+								<canvas
+									id="statsChart"
+									style="width: 100%; max-height: 300px"
+								></canvas>
+							</div>
+						</div>
+						<div class="card mt-4">
+							<div class="card-header">
+								<h3>Детализация по дням</h3>
+							</div>
+							<div class="table-wrap">
+								<table class="data-table">
+									<thead>
+										<tr>
+											<th>Дата</th>
+											<th>Визиты</th>
+										</tr>
+									</thead>
+									<tbody id="statsBody">
+										<tr>
+											<td colspan="2" class="empty-state">Загрузка...</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</section>
+
+					<!-- ===== VIDEOS ===== -->
+					<section id="sec-videos" class="section">
+						<div class="section-header">
+							<h2>Видеозаписи</h2>
+							<button class="btn btn-primary" id="addVideoBtn">
+								+ Добавить
+							</button>
+						</div>
+						<div class="media-grid" id="videosGrid">
+							<div class="loading-state">Загрузка...</div>
+						</div>
+					</section>
+
+					<!-- ===== GALLERY ===== -->
+					<section id="sec-gallery" class="section">
+						<div class="section-header">
+							<h2>Фотогалерея</h2>
+							<button class="btn btn-primary" id="addGalleryBtn">
+								+ Добавить
+							</button>
+						</div>
+						<div class="media-grid" id="galleryGrid">
+							<div class="loading-state">Загрузка...</div>
+						</div>
+					</section>
+
+					<!-- ===== TEXTS ===== -->
+					<section id="sec-texts" class="section">
+						<div class="section-header">
+							<h2>Контент и переводы</h2>
+							<div class="header-controls">
+								<select id="textLang" class="select-control">
+									<option value="ru">Русский</option>
+									<option value="en">English</option>
+								</select>
+								<button class="btn btn-primary" id="saveTextsBtn">
+									Сохранить всё
+								</button>
+							</div>
+						</div>
+
+						<!-- Блок 1: Главная -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-home">
+								<span class="block-icon">🏠</span>
+								<span class="block-title">Главная страница</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-home">
+						<div class="field-group">
+							<label>Подзаголовок Hero</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.hero.subtitle"
+								placeholder="Искусство, которое завораживает"
+							/>
+						</div>
+						<!-- Блок Биография -->
+						<p style="font-size:12px;font-weight:600;color:var(--accent);margin:16px 0 8px;">📖 Блок «Биография»</p>
+						<div class="field-group">
+							<label>Заголовок «Биография»</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.bio.title"
+								placeholder="Биография"
+							/>
+						</div>
+						<div class="field-group">
+							<label>Текст «Биография»</label>
+							<textarea
+								class="field-input field-textarea"
+								data-key="home.bio.text"
+								placeholder="Текст биографии..."
+							></textarea>
+						</div>
+						<div class="field-group">
+							<label>Кнопка «Купить билет» (текст)</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.bio.btn"
+								placeholder="Купить билет"
+							/>
+						</div>
+						<!-- Блок Шоу -->
+						<p style="font-size:12px;font-weight:600;color:var(--accent);margin:16px 0 8px;">🎪 Блок «Шоу»</p>
+						<div class="field-group">
+							<label>Заголовок «Шоу»</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.show.title"
+								placeholder="Шоу"
+							/>
+						</div>
+						<div class="field-group">
+							<label>Текст «Шоу»</label>
+							<textarea
+								class="field-input field-textarea"
+								data-key="home.show.text"
+								placeholder="Описание шоу..."
+							></textarea>
+						</div>
+						<div class="field-group">
+							<label>Кнопка «Смотреть Шоу» (текст)</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.show.btn"
+								placeholder="Смотреть Шоу"
+							/>
+						</div>
+						<!-- Блок Галерея -->
+						<p style="font-size:12px;font-weight:600;color:var(--accent);margin:16px 0 8px;">📸 Блок «Галерея»</p>
+						<div class="field-group">
+							<label>Заголовок «Галерея»</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.gallerySection.title"
+								placeholder="Галерея"
+							/>
+						</div>
+						<div class="field-group">
+							<label>Текст «Галерея»</label>
+							<textarea
+								class="field-input field-textarea"
+								data-key="home.gallerySection.text"
+								placeholder="Описание галереи..."
+							></textarea>
+						</div>
+						<div class="field-group">
+							<label>Кнопка «Галерея» (текст)</label>
+							<input
+								type="text"
+								class="field-input"
+								data-key="home.gallerySection.btn"
+								placeholder="Галерея"
+							/>
+						</div>
+					</div>
+
+						</div>
+
+						<!-- Блок 2: Навигация -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-nav">
+								<span class="block-icon">🧭</span>
+								<span class="block-title">Навигация</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-nav">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Главная</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="nav.home"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Видео</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="nav.videos"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Галерея</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="nav.gallery"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Билеты</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="nav.tickets"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Связь с нами</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="nav.contact"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Блок 3: Видео страница -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-videos">
+								<span class="block-icon">🎥</span>
+								<span class="block-title">Страница Видео</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-videos">
+								<div class="field-group">
+									<label>Заголовок страницы</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="videos.title"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Подзаголовок</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="videos.subtitle"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Пустая галерея (текст)</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="videos.noVideos"
+									/>
+								</div>
+								<div class="field-group" style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+									<input
+										type="checkbox"
+										id="video_preview_first_frame"
+										style="width: 18px; height: 18px; cursor: pointer;"
+									/>
+									<label for="video_preview_first_frame" style="margin-bottom: 0; cursor: pointer;">
+										Использовать первый кадр видео как превью
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Блок 4: Галерея страница -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-gallery">
+								<span class="block-icon">📸</span>
+								<span class="block-title">Страница Галереи</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-gallery">
+								<div class="field-group">
+									<label>Заголовок страницы</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="gallery.title"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Подзаголовок</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="gallery.subtitle"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Пустая галерея (текст)</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="gallery.noPhotos"
+									/>
+								</div>
+							</div>
+						</div>
+
+						<!-- Блок 5: Контакты форма -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-contact">
+								<span class="block-icon">📞</span>
+								<span class="block-title">Страница Контакты</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-contact">
+								<div class="field-group">
+									<label>Заголовок страницы</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="contact.title"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Подзаголовок</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="contact.subtitle"
+									/>
+								</div>
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Кнопка «Отправить»</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="contact.form.submit"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Успешная отправка</label>
+										<input
+											type="text"
+											class="field-input"
+											data-key="contact.form.success"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Блок 6: Футер -->
+						<div class="text-block">
+							<div class="block-header" data-toggle="block-footer">
+								<span class="block-icon">📄</span>
+								<span class="block-title">Футер (подвал)</span>
+								<span class="block-chevron">▼</span>
+							</div>
+							<div class="block-body" id="block-footer">
+								<div class="field-group">
+									<label>Copyright текст</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="footer.copyright"
+									/>
+								</div>
+								<div class="field-group">
+									<label>Заголовок «Разделы»</label>
+									<input
+										type="text"
+										class="field-input"
+										data-key="footer.sections"
+									/>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- ===== SOCIAL ===== -->
+					<section id="sec-social" class="section">
+						<div class="section-header">
+							<h2>Социальные сети</h2>
+							<button class="btn btn-primary" id="addSocialBtn">
+								+ Добавить
+							</button>
+						</div>
+						<div class="items-list" id="socialList">
+							<div class="loading-state">Загрузка...</div>
+						</div>
+					</section>
+
+					<!-- ===== SETTINGS ===== -->
+					<section id="sec-settings" class="section">
+						<div class="section-header">
+							<h2>Настройки сайта</h2>
+						</div>
+
+						<!-- Фоновые изображения/видео -->
+					<div class="card mb-4" style="margin-bottom: 20px;">
+						<div class="card-header">
+							<h3>🖼️ Фоновые медиа для страниц</h3>
+							<button class="btn btn-primary" id="saveBackgroundsBtn">
+								Сохранить фоны
+							</button>
+						</div>
+						<div class="card-body">
+
+							<!-- === ФОН ВИДЕО === -->
+							<div style="border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+								<p style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--accent);">🎥 Фон для страницы «Видео»</p>
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл (фото/видео)</label>
+										<input type="file" id="video_bg_file" class="field-input" accept="image/*,video/mp4,video/webm" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего фона</label>
+										<input type="text" id="video_bg_url" class="field-input" placeholder="(пусто = нет фона)" />
+									</div>
+								</div>
+								<div class="field-grid" style="margin-top: 12px;">
+									<div class="field-group">
+										<label>▶ Начало воспроизведения (секунды)</label>
+										<input type="number" id="video_bg_start" class="field-input" placeholder="0" min="0" step="1" />
+									</div>
+									<div class="field-group">
+										<label>⏹ Конец воспроизведения (секунды)</label>
+										<input type="number" id="video_bg_end" class="field-input" placeholder="конец видео" min="0" step="1" />
+									</div>
+								</div>
+								<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Если загружается видео — укажите диапазон времени, который будет показываться на фоне. Для изображений время игнорируется.</p>
+							</div>
+
+							<!-- === ФОН ГАЛЕРЕИ === -->
+							<div style="border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px;">
+								<p style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--accent);">📸 Фон для страницы «Галерея»</p>
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл (фото/видео)</label>
+										<input type="file" id="gallery_bg_file" class="field-input" accept="image/*,video/mp4,video/webm" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего фона</label>
+										<input type="text" id="gallery_bg_url" class="field-input" placeholder="(пусто = нет фона)" />
+									</div>
+								</div>
+								<div class="field-grid" style="margin-top: 12px;">
+									<div class="field-group">
+										<label>▶ Начало воспроизведения (секунды)</label>
+										<input type="number" id="gallery_bg_start" class="field-input" placeholder="0" min="0" step="1" />
+									</div>
+									<div class="field-group">
+										<label>⏹ Конец воспроизведения (секунды)</label>
+										<input type="number" id="gallery_bg_end" class="field-input" placeholder="конец видео" min="0" step="1" />
+									</div>
+								</div>
+								<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Для фотографий укажите позицию — где обрезать (CSS). 0% 0% = верх-лево, 50% 50% = центр, 100% 100% = низ-право.</p>
+								<div class="field-grid" style="margin-top: 12px;">
+									<div class="field-group">
+										<label>Позиция X (обрезка фото, %)</label>
+										<input type="number" id="gallery_bg_pos_x" class="field-input" placeholder="50" min="0" max="100" step="5" />
+									</div>
+									<div class="field-group">
+										<label>Позиция Y (обрезка фото, %)</label>
+										<input type="number" id="gallery_bg_pos_y" class="field-input" placeholder="50" min="0" max="100" step="5" />
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+						<!-- Фото Биографии -->
+						<div class="card mb-4" style="margin-bottom: 20px;">
+							<div class="card-header">
+								<h3>🖼️ Фото для раздела «Биография»</h3>
+								<button class="btn btn-primary" id="saveBioPhotoBtn">
+									Сохранить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл фото</label>
+										<input type="file" id="bio_photo_file" class="field-input" accept="image/*" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего фото</label>
+										<input type="text" id="bio_photo_url" class="field-input" placeholder="(пусто = нет фото)" />
+									</div>
+								</div>
+								<div id="bio_photo_preview" style="margin-top:12px;display:none;">
+									<img id="bio_photo_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+								</div>
+								<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Рекомендуемый размер: 480×520 px или больше (портретный формат).</p>
+							</div>
+						</div>
+
+						<!-- Фон блока Биографии -->
+						<div class="card mb-4" style="margin-bottom: 20px;">
+							<div class="card-header">
+								<h3>🌄 Фон блока «Биография» (фоновое фото секции)</h3>
+								<button class="btn btn-primary" id="saveBioBgPhotoBtn">Сохранить</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл фото</label>
+										<input type="file" id="bio_bg_photo_file" class="field-input" accept="image/*" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего фото</label>
+										<input type="text" id="bio_bg_photo_url" class="field-input" placeholder="(пусто = без фона)" />
+									</div>
+								</div>
+								<div id="bio_bg_photo_preview" style="margin-top:12px;display:none;">
+									<img id="bio_bg_photo_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+								</div>
+								<p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Фотография будет фоном блока «Биография» с тёмным оверлеем. Рекомендуется горизонтальный формат (min 1200×700 px).</p>
+							</div>
+						</div>
+
+				<!-- Фон блока Шоу -->
+				<div class="card mb-4" style="margin-bottom: 20px;">
+					<div class="card-header">
+						<h3>🌄 Фон блока «Шоу» (фоновое фото секции)</h3>
+						<button class="btn btn-primary" id="saveShowBgPhotoBtn">Сохранить</button>
+					</div>
+					<div class="card-body">
+						<div class="field-grid">
+							<div class="field-group">
+								<label>Загрузить файл фото</label>
+								<input type="file" id="show_bg_photo_file" class="field-input" accept="image/*" />
+							</div>
+							<div class="field-group">
+								<label>Или URL текущего фото</label>
+								<input type="text" id="show_bg_photo_url" class="field-input" placeholder="(пусто = без фона)" />
+							</div>
+						</div>
+						<div id="show_bg_photo_preview" style="margin-top:12px;display:none;">
+							<img id="show_bg_photo_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+						</div>
+						<p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Фотография будет фоном блока «Шоу» с тёмным оверлеем. Рекомендуется горизонтальный формат (min 1200×700 px).</p>
+					</div>
+				</div>
+
+				<!-- Фон блока Галерея -->
+				<div class="card mb-4" style="margin-bottom: 20px;">
+					<div class="card-header">
+						<h3>🌄 Фон блока «Галерея» (фоновое фото секции)</h3>
+						<button class="btn btn-primary" id="saveGalleryBgPhotoBtn">Сохранить</button>
+					</div>
+					<div class="card-body">
+						<div class="field-grid">
+							<div class="field-group">
+								<label>Загрузить файл фото</label>
+								<input type="file" id="gallery_bg_photo_file" class="field-input" accept="image/*" />
+							</div>
+							<div class="field-group">
+								<label>Или URL текущего фото</label>
+								<input type="text" id="gallery_bg_photo_url" class="field-input" placeholder="(пусто = без фона)" />
+							</div>
+						</div>
+						<div id="gallery_bg_photo_preview" style="margin-top:12px;display:none;">
+							<img id="gallery_bg_photo_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+						</div>
+						<p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Фотография будет фоном блока «Галерея» с тёмным оверлеем. Рекомендуется горизонтальный формат (min 1200×700 px).</p>
+					</div>
+				</div>
+
+						<!-- Медиа Шоу -->
+						<div class="card mb-4" style="margin-bottom: 20px;">
+							<div class="card-header">
+								<h3>🎪 Медиа для раздела «Шоу» (Главная)</h3>
+								<button class="btn btn-primary" id="saveShowMediaBtn">
+									Сохранить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл (фото/видео)</label>
+										<input type="file" id="show_media_file" class="field-input" accept="image/*,video/mp4,video/webm" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего медиа</label>
+										<input type="text" id="show_media_url" class="field-input" placeholder="(пусто = нет медиа)" />
+									</div>
+								</div>
+								<div id="show_media_preview" style="margin-top:12px;display:none;">
+									<img id="show_media_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);display:none;" />
+									<video id="show_media_preview_video" src="" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);display:none;" muted controls></video>
+								</div>
+								<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Если медиа загружено, вместо иконки перетянет внимание на визуальную часть.</p>
+							</div>
+						</div>
+
+						<!-- Превью для видео Шоу -->
+						<div class="card mb-4" style="margin-bottom: 20px;">
+							<div class="card-header">
+								<h3>🖼️ Превью для видео Шоу (Постер)</h3>
+								<button class="btn btn-primary" id="saveShowMediaPreviewBtn">
+									Сохранить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить картинку-превью</label>
+										<input type="file" id="show_media_preview_file" class="field-input" accept="image/*" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего превью</label>
+										<input type="url" id="show_media_preview_url_input" class="field-input" placeholder="(пусто = нет превью)" />
+									</div>
+								</div>
+								<div id="show_media_preview_poster" style="margin-top:12px;display:none;">
+									<img id="show_media_preview_poster_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+								</div>
+								<p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Картинка, которая будет показываться до воспроизведения видео (иначе берется 1-й кадр).</p>
+							</div>
+						</div>
+
+						<!-- Галерея Превью -->
+						<div class="card mb-4" style="margin-bottom: 20px;">
+							<div class="card-header">
+								<h3>📸 Фото для раздела «Галерея» (Главная)</h3>
+								<button class="btn btn-primary" id="saveGalleryMediaBtn">
+									Сохранить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Загрузить файл фото</label>
+										<input type="file" id="gallery_media_file" class="field-input" accept="image/*" />
+									</div>
+									<div class="field-group">
+										<label>Или URL текущего фото</label>
+										<input type="text" id="gallery_media_url" class="field-input" placeholder="(пусто = нет фото)" />
+									</div>
+								</div>
+								<div id="gallery_media_preview" style="margin-top:12px;display:none;">
+									<img id="gallery_media_preview_img" src="" alt="Превью" style="max-width:200px;max-height:160px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+								</div>
+							</div>
+						</div>
+
+						<!-- Кнопка билетов -->
+						<div class="card">
+							<div class="card-header">
+								<h3>🎫 Кнопка «Билеты» в меню</h3>
+								<button class="btn btn-primary" id="saveTicketBtn">
+									Сохранить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>URL ссылки</label>
+										<input
+											type="url"
+											id="ticket_url"
+											class="field-input"
+											placeholder="https://..."
+										/>
+									</div>
+									<div class="field-group">
+										<label>Текст кнопки</label>
+										<input
+											type="text"
+											id="ticket_label"
+											class="field-input"
+											placeholder="Купить билеты"
+										/>
+									</div>
+								</div>
+								<div class="toggle-row">
+									<label class="toggle-label">
+										<input
+											type="checkbox"
+											id="ticket_active"
+											class="toggle-input"
+										/>
+										<span class="toggle-slider"></span>
+										<span>Кнопка активна</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Резервная копия -->
+						<div class="card mt-4">
+							<div class="card-header">
+								<h3>🗄️ Резервная копия базы данных</h3>
+								<button class="btn btn-primary" id="backupBtn">
+									Скачать backup
+								</button>
+							</div>
+							<div class="card-body">
+								<p style="font-size: 13px; color: var(--text-muted)">
+									Скачивает текущую базу данных SQLite в виде файла
+									<code>juggler_backup.sqlite</code>. Храните резервные копии в
+									надёжном месте.
+								</p>
+							</div>
+						</div>
+					</section>
+
+					<!-- ===== SECURITY ===== -->
+					<section id="sec-security" class="section">
+						<!-- Смена пароля -->
+						<div class="card">
+							<div class="card-header">
+								<h3>🔑 Смена пароля</h3>
+								<button class="btn btn-primary" id="changePassBtn">
+									Изменить
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="field-grid">
+									<div class="field-group">
+										<label>Текущий пароль</label>
+										<input
+											type="password"
+											id="cur_pass"
+											class="field-input"
+											placeholder="••••••••"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Новый пароль</label>
+										<input
+											type="password"
+											id="new_pass"
+											class="field-input"
+											placeholder="Мин. 6 символов"
+										/>
+									</div>
+									<div class="field-group">
+										<label>Повторите новый</label>
+										<input
+											type="password"
+											id="rep_pass"
+											class="field-input"
+											placeholder="Повтор"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- История входов -->
+						<div class="card mt-4">
+							<div class="card-header">
+								<h3>🕵️ История входов по IP</h3>
+								<button class="btn btn-danger" id="clearLogsBtn">
+									Очистить
+								</button>
+							</div>
+							<div class="table-wrap">
+								<table class="data-table">
+									<thead>
+										<tr>
+											<th>Статус</th>
+											<th>Дата и время</th>
+											<th>IP-адрес</th>
+											<th>Браузер / Устройство</th>
+										</tr>
+									</thead>
+									<tbody id="logsBody">
+										<tr>
+											<td colspan="4" class="empty-state">Загрузка...</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</section>
+					<section id="sec-crm" class="section">
+						<div class="section-header">
+							<h2>Заявки с сайта</h2>
+							<div class="filter-group">
+								<button class="filter-btn active" data-filter="all">Все</button>
+								<button class="filter-btn" data-filter="new">Новые</button>
+								<button class="filter-btn" data-filter="read">
+									Прочитанные
+								</button>
+							</div>
+						</div>
+						<div class="card">
+							<div class="table-wrap">
+								<table class="data-table">
+									<thead>
+										<tr>
+											<th>Статус</th>
+											<th>Дата</th>
+											<th>Имя</th>
+											<th>Телефон</th>
+											<th>Тема</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody id="crmBody">
+										<tr>
+											<td colspan="6" class="empty-state">Загрузка...</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</section>
+				</div>
+			</main>
+		</div>
+
+		<!-- MODAL -->
+		<div class="modal-overlay" id="modalOverlay">
+			<div class="modal-box" id="modalBox">
+				<div class="modal-head">
+					<h3 id="modalTitle">Диалог</h3>
+					<button class="modal-close" id="modalCloseBtn">&times;</button>
+				</div>
+				<div class="modal-body" id="modalBody"></div>
+				<div class="modal-foot">
+					<button class="btn btn-ghost" id="modalCancelBtn">Отмена</button>
+					<button class="btn btn-primary" id="modalSaveBtn">Сохранить</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- TOASTS -->
+		<div id="toastContainer" class="toast-container"></div>
+
+		<script src="/js/admin.js"></script>
+	</body>
+</html>

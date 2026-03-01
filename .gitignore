@@ -1,0 +1,14 @@
+node_modules/
+.env
+*.sqlite
+uploads/
+*.log
+.DS_Store
+*.bak
+.vscode/
+.idea/
+dist/
+build/
+*.css.map
+.agent/
+scss/

@@ -1,0 +1,149 @@
+{
+	"site": {
+		"title": "JUGGLER - The Art of Juggling and Entertainment",
+		"shortTitle": "JUGGLER"
+	},
+	"nav": {
+		"home": "Home",
+		"bio": "Biography",
+		"videos": "Show",
+		"gallery": "Gallery",
+		"tickets": "Tickets",
+		"contact": "Contact Us",
+		"language": "EN"
+	},
+	"home": {
+		"hero": {
+			"title": "JUGGLER",
+			"subtitle": "Art that mesmerizes",
+			"cta": "Watch show"
+		},
+		"about": {
+			"title": "Biography",
+			"text": "The poster is your main guide to the cultural life of the city. We collect the most interesting events so that you don't miss anything important. The poster is your main guide to the cultural life of the city. We collect the most interesting events so that you don't miss anything important. The poster is your main guide to the cultural life of the city. We collect the most interesting events so that you don't miss anything important."
+		},
+		"bio": {
+			"title": "Biography",
+			"text": "The poster is your main guide to the cultural life of the city. We collect the most interesting events so that you don't miss anything important.",
+			"btn": "Buy Ticket"
+		},
+		"show": {
+			"title": "Show",
+			"text": "Breathtaking performances you'll never forget. The magic of juggling, acrobatics and a dazzling spectacle — it all awaits you at our show.",
+			"btn": "Watch Show"
+		},
+		"gallerySection": {
+			"title": "Gallery",
+			"text": "Bright moments of our performances captured in every shot. Immerse yourself in the atmosphere of our show through photos.",
+			"btn": "Gallery"
+		}
+	},
+	"videos": {
+		"title": "Video Gallery",
+		"subtitle": "Our performances in action",
+		"noVideos": "Videos coming soon"
+	},
+	"gallery": {
+		"title": "Photo Gallery",
+		"subtitle": "Bright moments of our shows",
+		"noPhotos": "Photos coming soon"
+	},
+	"contact": {
+		"title": "Contact Us",
+		"subtitle": "We are always happy to hear from you",
+		"form": {
+			"firstName": "First Name",
+			"lastName": "Last Name",
+			"phone": "Phone",
+			"email": "Email",
+			"subject": "Subject",
+			"submit": "Submit",
+			"sending": "Sending...",
+			"success": "Message sent!",
+			"error": "Error sending. Please try again later.",
+			"validationError": "Please fill in all fields correctly"
+		},
+		"countries": {
+			"ru": "Russia",
+			"kz": "Kazakhstan",
+			"by": "Belarus",
+			"ua": "Ukraine",
+			"am": "Armenia",
+			"az": "Azerbaijan",
+			"ge": "Georgia",
+			"kg": "Kyrgyzstan",
+			"md": "Moldova",
+			"tj": "Tajikistan",
+			"tm": "Turkmenistan",
+			"uz": "Uzbekistan",
+			"at": "Austria",
+			"be": "Belgium",
+			"bg": "Bulgaria",
+			"gb": "United Kingdom",
+			"hu": "Hungary",
+			"de": "Germany",
+			"gr": "Greece",
+			"dk": "Denmark",
+			"ie": "Ireland",
+			"es": "Spain",
+			"it": "Italy",
+			"cy": "Cyprus",
+			"lv": "Latvia",
+			"lt": "Lithuania",
+			"nl": "Netherlands",
+			"no": "Norway",
+			"pl": "Poland",
+			"pt": "Portugal",
+			"ro": "Romania",
+			"rs": "Serbia",
+			"sk": "Slovakia",
+			"si": "Slovenia",
+			"fi": "Finland",
+			"fr": "France",
+			"hr": "Croatia",
+			"me": "Montenegro",
+			"cz": "Czech Republic",
+			"ch": "Switzerland",
+			"se": "Sweden",
+			"ee": "Estonia",
+			"ae": "UAE",
+			"vn": "Vietnam",
+			"hk": "Hong Kong",
+			"il": "Israel",
+			"in": "India",
+			"id": "Indonesia",
+			"cn": "China",
+			"my": "Malaysia",
+			"sg": "Singapore",
+			"th": "Thailand",
+			"tr": "Turkey",
+			"jp": "Japan",
+			"kr": "South Korea",
+			"us": "USA",
+			"ca": "Canada",
+			"br": "Brazil",
+			"mx": "Mexico",
+			"ar": "Argentina",
+			"au": "Australia",
+			"nz": "New Zealand",
+			"eg": "Egypt"
+		}
+	},
+	"footer": {
+		"about": "About Us",
+		"aboutText": "The poster is your main guide to the cultural life of the city. We collect the most interesting events so that you don't miss anything important.",
+		"sections": "Sections",
+		"copyright": "© 2026 JUGGLER. All rights reserved."
+	},
+	"loader": {
+		"loading": "Loading"
+	},
+	"common": {
+		"close": "Close",
+		"back": "Back",
+		"next": "Next",
+		"prev": "Previous",
+		"watchVideo": "Watch video",
+		"viewPhoto": "View photo"
+	}
+}
