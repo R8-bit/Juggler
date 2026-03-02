@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
+const fs = require("fs");
 const db = require("./database");
 const apiRoutes = require("./routes/api");
 const authRoutes = require("./routes/auth");
@@ -13,6 +14,19 @@ const authRoutes = require("./routes/auth");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === "production";
+
+// Trust Proxy (Required for Render/Cloud to get real user IP)
+if (isProd) {
+  app.set('trust proxy', 1);
+}
+
+// Request Logging
+app.use((req, res, next) => {
+  if (!req.url.startsWith('/api/')) {
+    console.log(`[REQ] ${req.method} ${req.url}`);
+  }
+  next();
+});
 
 // Security Headers (с разрешениями для админки)
 app.use(
@@ -57,8 +71,10 @@ app.use(
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: isProd ? 100 : 1000, // limit each IP to 100 requests per windowMs in prod
-  message: "Too many requests from this IP, please try again later.",
+  max: isProd ? 200 : 1000, // Increased for production
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests from this IP, please try again later." },
 });
 app.use("/api/", limiter);
 
@@ -87,6 +103,7 @@ app.use(express.static(path.join(__dirname, "../frontend"), {
 app.get('/:page', (req, res, next) => {
   const page = req.params.page;
   const filePath = path.join(__dirname, '../frontend', `${page}.html`);
+  
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
   } else {
