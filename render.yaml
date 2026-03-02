@@ -18,8 +18,3 @@ services:
         sync: false # Set this in Render dashboard manually for security
       - key: FRONTEND_URL
         value: https://juggler-show-backend.onrender.com # Change this if you use a custom domain
-    # Use a disk for SQLite persistence
-    disk:
-      name: juggler-db
-      mountPath: /opt/render/project/src/backend/database
-      sizeGB: 1
