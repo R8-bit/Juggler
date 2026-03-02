@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: juggler-show-backend
+    env: node
+    plan: free # or standard if you need more resources
+    buildCommand: npm install && cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: PORT
+        value: 10000 # Render's default port
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: ./database/juggler.sqlite
+      - key: JWT_SECRET
+        generateValue: true # Generate a random secret
+      - key: ADMIN_PASSWORD
+        sync: false # Set this in Render dashboard manually for security
+      - key: FRONTEND_URL
+        value: https://juggler-show-backend.onrender.com # Change this if you use a custom domain
+    # Use a disk for SQLite persistence
+    disk:
+      name: juggler-db
+      mountPath: /opt/render/project/src/backend/database
+      sizeGB: 1

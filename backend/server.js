@@ -20,7 +20,7 @@ app.use(
     hsts: false, // Disable HSTS to allow HTTP on mobile
     contentSecurityPolicy: {
       directives: {
-        upgradeInsecureRequests: null, // Disable HTTPS upgrade
+        upgradeInsecureRequests: [], // Disable HTTPS upgrade
         defaultSrc: ["'self'"],
         styleSrc: [
           "'self'",
@@ -79,7 +79,20 @@ app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Serve Frontend Static Files
-app.use(express.static(path.join(__dirname, "../frontend")));
+app.use(express.static(path.join(__dirname, "../frontend"), {
+  extensions: ['html']
+}));
+
+// Fallback for SPA-like behavior or specific .html serving
+app.get('/:page', (req, res, next) => {
+  const page = req.params.page;
+  const filePath = path.join(__dirname, '../frontend', `${page}.html`);
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    next();
+  }
+});
 
 // Routes
 app.use("/api/auth", authRoutes);

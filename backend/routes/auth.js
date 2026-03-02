@@ -18,6 +18,7 @@ function getClientIp(req) {
 
 // Login endpoint
 router.post('/login', async (req, res) => {
+	console.log('[AUTH] Login attempt started for:', req.body.username)
 	const ip = getClientIp(req)
 	const userAgent = req.headers['user-agent'] || ''
 	try {
@@ -29,7 +30,7 @@ router.post('/login', async (req, res) => {
 
 		const admin = await Admin.findOne({ where: { username } })
 
-		if (!admin) {
+		if (!admin || !admin.password) {
 			await LoginLog.create({ ip, userAgent, username, status: 'fail' }).catch(
 				() => {},
 			)
@@ -65,8 +66,8 @@ router.post('/login', async (req, res) => {
 
 		res.json({ success: true, username: admin.username })
 	} catch (err) {
-		console.error('Login error:', err)
-		res.status(500).json({ error: 'Server error' })
+		console.error('[CRITICAL] Login error:', err.stack)
+		res.status(500).json({ error: 'Server error', detail: err.message, stack: err.stack })
 	}
 })
 

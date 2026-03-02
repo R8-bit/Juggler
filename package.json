@@ -1,0 +1,12 @@
+{
+  "name": "juggler-show",
+  "version": "1.0.0",
+  "description": "JUGGLER-SHOW Project",
+  "scripts": {
+    "start": "cd backend && npm install && npm start",
+    "build": "cd backend && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
